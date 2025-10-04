@@ -5,6 +5,8 @@
     <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Générateur de Tournoi Sportif</title>
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiR8OpbsOpcmF0ZXVyIGRlIFRvdXJub2kgU3BvcnRpZiIsInNob3J0X25hbWUiOiJUb3Vybm9pIEdlbiIsImRlc2NyaXB0aW9uIjoiQ3LDqWV6IGV0IGfDqXJleiB2b3MgcHJvcHJlcyBjb21ww6l0aXRpb25zIHNwb3J0aXZlcyBmYWNpbGVtZW50LiIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMTExODI3IiwidGhlbWVfY29sb3IiOiIjMWUzYThhIiwiaWNvbnMiOlt7InNyYyI6Ii9pY29uLnN2ZyIsInNpemVzIjoiYW55IiwidHlwZSI6ImltYWdlL3N2Zyt4bWwifSx7InNyYyI6Ii9pY29uLnN2ZyIsInNpemVzIjoiMTkyeDE5MiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIiwicHVycG9zZSI6ImFueSBtYXNrYWJsZSJ9LHsic3JjIjoiL2ljb24uc3ZnIiwic2l6ZXMiOiI1MTJ4NTEyIiwidHlwZSI6ImltYWdlL3N2Zyt4bWwiLCJwdXJwb3NlIjoiYW55IG1hc2thYmxlIn1dfQ==" />
+    <meta name="theme-color" content="#1e3a8a" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -49,5 +51,16 @@
   <body class="bg-slate-900 text-white">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('SW registered: ', registration);
+          }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

@@ -43,6 +43,8 @@ const App: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [roundRobinMatches, setRoundRobinMatches] = useState<RoundRobinMatch[]>([]);
   const [standings, setStandings] = useState<Standings>({});
+  const [activeEliminationTab, setActiveEliminationTab] = useState<'main' | 'consolation'>('main');
+
 
   // State for Group + Knockout
   const [groups, setGroups] = useState<Group[]>([]);
@@ -235,6 +237,27 @@ const App: React.FC = () => {
   
   const handleSelectWinner = (matchId: string, winner: Player) => {
     const newMatches = matches.map(m => m.id === matchId ? { ...m, winner } : m);
+
+    const round1Matches = newMatches.filter(m => m.round === 1);
+    const round1Complete = round1Matches.every(m => m.winner !== null);
+    const consolationBracketExists = consolationMatches.length > 0;
+
+    if (tournamentType === TournamentType.SINGLE_ELIMINATION && round1Complete && !consolationBracketExists) {
+        const losers = round1Matches
+            .map(m => {
+                if (!m.player1 || !m.player2) return null;
+                const loser = m.winner?.id === m.player1.id ? m.player2 : m.player1;
+                if (loser.id === -1) return null; // Don't add BYEs to consolation
+                return loser;
+            })
+            .filter((p): p is Player => p !== null);
+
+        if (losers.length >= 2) {
+            const consolationBracket = createBracket(losers, true);
+            setConsolationMatches(advanceWinners(consolationBracket));
+        }
+    }
+
     setMatches(advanceWinners(newMatches, (winner) => {
         setWinner(winner);
         setAppState(AppState.FINISHED);
@@ -555,6 +578,7 @@ const App: React.FC = () => {
     setTournamentPhase('groups');
     setMainWinner(null);
     setIsSeedingEnabled(false);
+    setActiveEliminationTab('main');
   };
   
   const backToSetup = () => {
@@ -571,6 +595,7 @@ const App: React.FC = () => {
     setConsolationMatches([]);
     setTournamentPhase('groups');
     setMainWinner(null);
+    setActiveEliminationTab('main');
   };
 
 
@@ -612,7 +637,51 @@ const App: React.FC = () => {
                 Retour
             </button>
             {tournamentType === TournamentType.SINGLE_ELIMINATION && (
-              <SingleEliminationBracket matches={matches} onSelectWinner={handleSelectWinner} />
+               <div className="w-full">
+                <div className="border-b border-slate-700 mb-6 flex">
+                  <button
+                    onClick={() => setActiveEliminationTab('main')}
+                    className={`px-4 py-2 font-semibold rounded-t-lg transition-colors ${
+                      activeEliminationTab === 'main'
+                        ? 'bg-slate-800 text-brand-secondary'
+                        : 'bg-slate-900 text-slate-400 hover:bg-slate-800/50'
+                    }`}
+                  >
+                    Tableau Principal
+                  </button>
+                  <button
+                    onClick={() => setActiveEliminationTab('consolation')}
+                    className={`px-4 py-2 font-semibold rounded-t-lg transition-colors ${
+                      consolationMatches.length === 0
+                        ? 'bg-slate-900 text-slate-600 cursor-not-allowed'
+                        : activeEliminationTab === 'consolation'
+                        ? 'bg-slate-800 text-brand-secondary'
+                        : 'bg-slate-900 text-slate-400 hover:bg-slate-800/50'
+                    }`}
+                    disabled={consolationMatches.length === 0}
+                  >
+                    Consolante
+                  </button>
+                </div>
+                 {consolationMatches.length === 0 && (
+                    <p className="text-center text-slate-400 mb-4 -mt-2">Terminez le premier tour pour générer le tableau de la consolante.</p>
+                 )}
+
+                {activeEliminationTab === 'main' && (
+                  <SingleEliminationBracket 
+                    matches={matches} 
+                    onSelectWinner={handleSelectWinner} 
+                    title="Tableau Principal"
+                  />
+                )}
+                {activeEliminationTab === 'consolation' && (
+                  <SingleEliminationBracket 
+                    matches={consolationMatches} 
+                    onSelectWinner={handleConsolationWinner}
+                    title="Tournoi Consolante"
+                  />
+                )}
+              </div>
             )}
             {tournamentType === TournamentType.ROUND_ROBIN && (
               <RoundRobinView matches={roundRobinMatches} standings={standings} onScoreUpdate={handleRoundRobinScoreUpdate} />
