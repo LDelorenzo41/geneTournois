@@ -1,0 +1,5 @@
+{
+  "name": "Générateur de Tournoi Sportif",
+  "description": "Une application pour créer et suivre des tournois sportifs avec différents formats. Entrez jusqu'à 28 joueurs ou équipes, choisissez un format et suivez les matchs jusqu'à la victoire finale.",
+  "requestFramePermissions": []
+}
