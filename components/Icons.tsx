@@ -19,14 +19,33 @@ export const UsersIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 );
 
 export const TrophyIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 18.75h-9a9.75 9.75 0 0 1 9 0Z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12.75 21.75a.75.75 0 0 0-1.5 0V18.75h1.5v3ZM12 15.75A5.25 5.25 0 0 0 6.75 21v-1.125a5.25 5.25 0 0 1 10.5 0V21a5.25 5.25 0 0 0-5.25-5.25Z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4.125 9.75a.75.75 0 0 0-1.5 0v3.75c0 .414.336.75.75.75h.75c.414 0 .75-.336.75-.75V9.75Z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.875 9.75a.75.75 0 0 1 1.5 0v3.75c0 .414-.336.75-.75.75h-.75a.75.75 0 0 1-.75-.75V9.75Z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15.75a5.25 5.25 0 0 0-5.25-5.25V6a5.25 5.25 0 0 1 10.5 0v4.5A5.25 5.25 0 0 0 12 15.75Z" />
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" {...props}>
+      {/* Base */}
+      <rect x="25" y="88" width="50" height="10" rx="2" fill="#6d4c41" />
+      <rect x="30" y="90" width="40" height="6" rx="1" fill="#ffecb3" />
+      
+      {/* Stem */}
+      <path d="M44,88 L56,88 L60,70 L40,70 Z" fill="#ffc107" />
+      
+      {/* Cup */}
+      <path d="M30,10 C20,10 20,20 20,20 V 50 C 20,70 80,70 80,50 V 20 C 80,20 80,10 70,10 Z" fill="#ffc107" />
+  
+      {/* Handles */}
+      <path d="M80,25 C95,30 95,45 80,50 V 42 C 90,40 90,30 80,28 Z" fill="#ffc107" />
+      <path d="M20,25 C5,30 5,45 20,50 V 42 C 10,40 10,30 20,28 Z" fill="#ffc107" />
+      
+      {/* Number 1 */}
+      <text 
+        x="50" y="48" 
+        fontSize="35" 
+        fontWeight="bold" 
+        fill="#fffde7" 
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontFamily="Arial, sans-serif"
+      >1</text>
     </svg>
-);
+  );
 
 export const ArrowLeftIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6" {...props}>

@@ -719,10 +719,10 @@ const App: React.FC = () => {
             {tournamentType === TournamentType.ROUND_ROBIN && finalStandings.length > 0 ? (
                 <Card className="w-full">
                     <div className="flex items-center justify-center gap-4 mb-6">
-                        <TrophyIcon className="w-16 h-16 text-brand-accent" />
+                        <TrophyIcon className="w-20 h-20" />
                         <div>
                              <h3 className="text-3xl font-extrabold text-white">Classement Final</h3>
-                             <p className="text-lg text-slate-400">Vainqueur : <span className="text-brand-accent font-bold">{finalStandings[0].name}</span></p>
+                             <p className="text-lg text-slate-400">Vainqueur : <span className="font-bold bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-amber-500">{finalStandings[0].name}</span></p>
                         </div>
                     </div>
                     <div className="overflow-x-auto">
@@ -740,7 +740,7 @@ const App: React.FC = () => {
                             </thead>
                             <tbody>
                                 {finalStandings.map((s, index) => (
-                                    <tr key={s.name} className={`border-b border-slate-700 ${index === 0 ? 'text-brand-accent font-bold' : ''}`}>
+                                    <tr key={s.name} className={`border-b border-slate-700 ${index === 0 ? 'text-amber-400 font-bold' : ''}`}>
                                         <td className="p-2">{index + 1}</td>
                                         <td className="p-2 truncate">{s.name}</td>
                                         <td className="p-2 text-center text-green-400">{s.wins}</td>
@@ -755,10 +755,14 @@ const App: React.FC = () => {
                     </div>
                 </Card>
             ) : (
-                <div className="bg-slate-800 p-8 rounded-xl shadow-2xl inline-block border border-brand-accent">
-                    <TrophyIcon className="w-24 h-24 mx-auto text-brand-accent" />
-                    <h3 className="text-4xl font-extrabold text-white mt-4">Vainqueur</h3>
-                    <p className="text-5xl font-black text-brand-accent mt-2 animate-pulse">{winner?.name}</p>
+                <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 p-8 rounded-2xl shadow-2xl inline-block border border-amber-500/50 overflow-hidden">
+                    <div className="absolute -top-1/4 -right-1/4 w-60 h-60 bg-amber-500/10 rounded-full filter blur-3xl"></div>
+                    <div className="absolute -bottom-1/4 -left-1/4 w-60 h-60 bg-blue-500/10 rounded-full filter blur-3xl"></div>
+                    <div className="relative z-10 text-center">
+                        <TrophyIcon className="w-28 h-28 mx-auto" />
+                        <h3 className="text-4xl font-extrabold text-white mt-4 tracking-wider">VAINQUEUR</h3>
+                        <p className="text-5xl font-black mt-2 animate-pulse bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-amber-500">{winner?.name}</p>
+                    </div>
                 </div>
             )}
 
